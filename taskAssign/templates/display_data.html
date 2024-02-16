@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Form Data</title>
+</head>
+<body>
+    <h1>Form Data</h1>
+    <pre id="formData"></pre>
+
+    <script>
+        // Retrieve JSON data from local storage
+        const jsonData = localStorage.getItem('formData');
+
+        // Parse JSON data and display it
+        if (jsonData) {
+            const formData = JSON.parse(jsonData);
+            document.getElementById('formData').innerText = JSON.stringify(formData, null, 2);
+        } else {
+            document.getElementById('formData').innerText = 'No form data available.';
+        }
+    </script>
+</body>
+</html>

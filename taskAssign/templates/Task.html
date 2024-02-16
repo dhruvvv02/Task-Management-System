@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #e2e2e2;
+        }
+
+        .container {
+            overflow: hidden;
+            max-height: 80vh; /* Set a maximum height for the container */
+            font-size: 20px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .team-leader-container {
+            margin-top: 20px;
+        }
+
+        .task-list {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Task Management</h2>
+
+        <div id="teamLeadersContainer">
+            <!-- Team leaders and their tasks will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Fetch data from the backend API
+        fetch('https://your-backend-api.com/tasks')
+            .then(response => response.json())
+            .then(data => {
+                // Extract team leaders and display tasks
+                displayTeamLeaders(data.teamLeaders);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+        function displayTeamLeaders(teamLeaders) {
+            const teamLeadersContainer = document.getElementById('teamLeadersContainer');
+
+            if (teamLeaders.length === 0) {
+                teamLeadersContainer.innerHTML = '<p>No team leaders available.</p>';
+                return;
+            }
+
+            teamLeaders.forEach(teamLeader => {
+                const teamLeaderDiv = document.createElement('div');
+                teamLeaderDiv.classList.add('team-leader-container');
+                teamLeaderDiv.innerHTML = `<h3>Team Leader: ${teamLeader.email}</h3>`;
+
+                if (teamLeader.tasks.length === 0) {
+                    teamLeaderDiv.innerHTML += '<p>No tasks assigned.</p>';
+                } else {
+                    const taskList = document.createElement('ul');
+                    teamLeader.tasks.forEach(task => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Task: ${task.description} | Deadline: ${task.deadline}`;
+                        taskList.appendChild(listItem);
+                    });
+
+                    teamLeaderDiv.appendChild(taskList);
+                }
+
+                teamLeadersContainer.appendChild(teamLeaderDiv);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Form Data</title>
+</head>
+<body>
+    <div id="formDataContainer"></div>
+
+    <script>
+        fetch('backend/formData.json')
+        .then(response => response.json())
+        .then(formData => {
+            const formDataContainer = document.getElementById('formDataContainer');
+            formDataContainer.innerHTML = `
+                <h2>Form Data</h2>
+                <p>Name: ${formData.name}</p>
+                <p>Email: ${formData.email}</p>
+                <!-- Add more fields as needed -->
+            `;
+        })
+        .catch(error => {
+            console.error('Error fetching form data:', error);
+        });
+    </script>
+</body>
+</html>
